@@ -6,7 +6,7 @@ from flask.ext.sqlalchemy import get_debug_queries
 from . import blog
 # from .forms import
 from .. import db
-from ..models import Permission, Role, User, Article
+from ..models import Permission, Role, User, Article, Post
 from ..decorators import admin_required, permission_required
 
 # 请求钩子
@@ -21,5 +21,5 @@ def before_request():
 
 @blog.route('/', methods=['GET', 'POST'])
 def index():
-    articles = []
+    articles = Post.query.all()
     return render_template('blog/index.html', articles=articles)

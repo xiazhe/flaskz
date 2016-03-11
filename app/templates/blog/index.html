@@ -8,6 +8,12 @@
     <h1>Blog</h1>
 </div>
 <div class="col-md-4">
-
+<ul>
+    {% for article in articles %}
+    <li>
+        {{ article.body }}
+    </li>
+    {% endfor %}
+</ul>
 </div>
 {% endblock %}

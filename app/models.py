@@ -331,6 +331,7 @@ class Post(db.Model):
                                 _external=True),
             'comment_count': self.comments.count()
         }
+
         return json_post
 
     @staticmethod

@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import blog
-# from .forms import
+from .forms import ArticleForm
 from .. import db
 from ..models import Permission, Role, User, Article, Post
 from ..decorators import admin_required, permission_required
@@ -22,4 +22,12 @@ def before_request():
 @blog.route('/', methods=['GET', 'POST'])
 def index():
     articles = Post.query.all()
-    return render_template('blog/index.html', articles=articles)
+    form = ArticleForm()
+    if form.validate_on_submit():
+        article = Article(title=form.title.data,
+                          author_id=current_user._get_current_object(),
+                          content=form.content.data)
+        db.session.add(article)
+        return redirect(url_for('blog.index'))
+
+    return render_template('blog/index.html', articles=articles, form=form)

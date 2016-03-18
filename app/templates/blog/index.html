@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Login{% endblock %}
+{% block title %}Flasky - Articles{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
@@ -14,7 +14,8 @@
 <ul>
     {% for article in articles %}
     <li>
-        {{ article.body }}
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.content }}</p>
     </li>
     {% endfor %}
 </ul>

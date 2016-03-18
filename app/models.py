@@ -87,6 +87,7 @@ class User(UserMixin, db.Model):
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    articles = db.relationship('Article', backref='author', lazy='dynamic')
 
     @staticmethod
     def generate_fake(count=100):

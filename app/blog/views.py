@@ -20,14 +20,34 @@ def before_request():
             return redirect(url_for('auth.unconfirmed'))
 
 @blog.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
-    articles = Post.query.all()
+    articles = Article.query.all()
     form = ArticleForm()
     if form.validate_on_submit():
         article = Article(title=form.title.data,
-                          author_id=current_user._get_current_object(),
+                          author=current_user._get_current_object(),
                           content=form.content.data)
         db.session.add(article)
+        flash('Your article has been added.')
         return redirect(url_for('blog.index'))
 
     return render_template('blog/index.html', articles=articles, form=form)
+
+@blog.route('/custom', methods=['GET', 'POST'])
+@login_required
+def custom():
+    articles = Article.query.all()
+    form = ArticleForm()
+    if request.method == 'POST':
+        print form.validate_on_submit()
+        print form
+    if form.validate_on_submit():
+        article = Article(title=form.title.data,
+                          author=current_user._get_current_object(),
+                          content=form.content.data)
+        db.session.add(article)
+        flash('Ur article has been added.')
+        return redirect(url_for('blog.custom'))
+
+    return render_template('blog/custom_form.html', articles=articles, form=form)
